@@ -6,6 +6,22 @@ output:
   flexdashboard::flex_dashboard:
     orientation: rows
 ---
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(lubridate)
+library(janitor)
+library(glue)
+library(plotly)
+library(DT)
+library(kableExtra)
+library(htmlwidgets)
+library(htmltools)
+library(readxl)
+
+
+
+```
 
 Row
 -------------------------------------
