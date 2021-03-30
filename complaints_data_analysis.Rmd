@@ -19,6 +19,16 @@ library(htmlwidgets)
 library(htmltools)
 library(readxl)
 
+View(complaints)
+
+Companies_with_most_complaints <- complaints %>% select(company) %>% 
+                                group_by(company) %>%                                                 summarise(amount_complaints = n()) %>%                                 arrange(desc(amount_complaints))
+
+Top3_complaints <- Companies_with_most_complaints %>% filter(amount_complaints>10000)
+
+view(Top3_complaints)
+
+#the code above is isolating the company variable in the complaints dataset, we will use this simplified dataset to create a chart in plot_ly to visually show the top companies responsible for the complaints
 
 
 ```
@@ -29,6 +39,17 @@ Row
 ### Chart 1
     
 ```{r}
+fig1 <- plot_ly(data = Top3_complaints, x = ~amount_complaints, y = ~company, type = 'bar', name = '2020 Companies with the Most Complaints')
+
+fig1 <- fig1 %>% layout(
+                title = "2020 Companies with the Most Complaints",
+                xaxis = list(title = "Number of Complaints"),
+                yaxis = list(title = "")
+)
+
+fig1
+
+#code above makes a bar graph which shows the three companies with the most complaints; I had trouble with making the companies themselves readable, but if you hover over the bars they pop up... maybe we could discuss this in class?
 ```
    
 Row
