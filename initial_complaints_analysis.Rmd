@@ -11,11 +11,6 @@ knitr::opts_chunk$set(echo = TRUE)
 library(flexdashboard)
 library(tidyverse)
 library(lubridate)
-library(janitor)
-library(glue)
-library(plotly)
-library(DT)
-library(kableExtra)
 library(htmlwidgets)
 library(htmltools)
 library(readxl)
@@ -23,9 +18,65 @@ library(readxl)
 View(complaints)
 ```
 
-Initial 2020 Complaints Analysis:
+Initial 2020 Complaints Analysis
+
+Let's look at when complaints were received over the course of the year:
 
 ```{r}
 
+complaints_with_month <- complaints %>% mutate(month = month(date_received))
+
+complaints_with_month %>% group_by(month) %>% 
+                          summarise(count_by_month = n()) %>% 
+                          select(month, count_by_month) %>% 
+                          arrange(desc(count_by_month))
+complaints_with_month
+
+#shows the number of complaints per month, I think it would be interesting to show the breakdown in a sort of line graph
+
 ```
+
+Let's now find the companies who were responsible for the most complaints:
+
+```{r}
+Companies_with_most_complaints <- complaints %>% select(company) %>% 
+                                group_by(company) %>%                                                 summarise(amount_complaints = n()) %>%                                 arrange(desc(amount_complaints))
+
+Top3_complaints <- Companies_with_most_complaints %>% filter(amount_complaints>10000)
+
+Top3_complaints
+
+```
+
+I'm also interested in the the various products the complaints are about, so let's look at what the breakdown is and see if we can simplify it somewhat...
+
+```{r}
+breakdown_of_product <- complaints %>% select(product) %>% 
+                            group_by(product) %>% 
+                            summarise(n = n()) %>% 
+                            arrange(desc(n))
+breakdown_of_product
+
+#after looking at this data, it has become apparent to me that I would want to compare this to other years to see if different products are more normally at the top or if this is normal
+
+```
+
+Let's now look at the company's response:
+
+```{r}
+
+company_response <- complaints %>% 
+  select(company_response_to_consumer) %>% 
+  group_by(company_response_to_consumer) %>% 
+  summarise(r = n()) 
+
+company_response_clean <- filter(company_response, r > 1)
+
+company_response_clean
+
+#for this code, we grouped around the response options and filtered out the one variable which wasn't filled in to make the data easier to show visually
+
+```
+
+
 

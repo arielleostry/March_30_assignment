@@ -26,7 +26,7 @@ Companies_with_most_complaints <- complaints %>% select(company) %>%
 
 Top3_complaints <- Companies_with_most_complaints %>% filter(amount_complaints>10000)
 
-view(Top3_complaints)
+view(Top_complaints)
 
 #the code above is isolating the company variable in the complaints dataset, we will use this simplified dataset to create a chart in plot_ly to visually show the top companies responsible for the complaints
 
