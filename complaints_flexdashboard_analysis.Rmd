@@ -21,16 +21,6 @@ library(readxl)
 
 View(complaints)
 
-Companies_with_most_complaints <- complaints %>% select(company) %>% 
-                                group_by(company) %>%                                                 summarise(amount_complaints = n()) %>%                                 arrange(desc(amount_complaints))
-
-Top3_complaints <- Companies_with_most_complaints %>% filter(amount_complaints>10000)
-
-view(Top_complaints)
-
-#the code above is isolating the company variable in the complaints dataset, we will use this simplified dataset to create a chart in plot_ly to visually show the top companies responsible for the complaints
-
-
 ```
 
 Row
@@ -39,6 +29,14 @@ Row
 ### Chart 1
     
 ```{r}
+
+Companies_with_most_complaints <- complaints %>% select(company) %>% 
+                                group_by(company) %>%                                                 summarise(amount_complaints = n()) %>%                                 arrange(desc(amount_complaints))
+
+Top3_complaints <- Companies_with_most_complaints %>% filter(amount_complaints>10000)
+
+#the code above is isolating the company variable in the complaints dataset, we will use this simplified dataset to create a chart in plot_ly to visually show the top companies responsible for the complaints
+
 fig1 <- plot_ly(data = Top3_complaints, x = ~amount_complaints, y = ~company, type = 'bar', name = '2020 Companies with the Most Complaints')
 
 fig1 <- fig1 %>% layout(
@@ -58,9 +56,36 @@ Row
 ### Chart 2
     
 ```{r}
+#data prep - borrowed from initial analysis markdown file
+
+company_response <- complaints %>% 
+  select(company_response_to_consumer) %>% 
+  group_by(company_response_to_consumer) %>% 
+  summarise(r = n()) 
+
+company_response_clean <- filter(company_response, r > 1)
+
+#data visualization - donut chart to show the percentage of company responses to complaints
+
+fig3 <- company_response_clean %>% plot_ly(labels = 
+                    ~company_response_to_consumer, values = ~r)
+
+fig3 <- fig3 %>% add_pie(hole = 0.6)
+
+fig3 <- fig3 %>% layout(
+                  title = "How companies respond to complaints",  
+                  showlegend = F,
+                  xaxis = list(showgrid = FALSE, zeroline = FALSE, 
+                               showticklabels = FALSE),
+                  yaxis = list(showgrid = FALSE, zeroline = FALSE, 
+                               showticklabels = FALSE))
+fig3
+
+#experiencing a similar issue to fig1 where it is difficult to read some of the numbers without hovering over... not sure how to fix the situation
 ```
     
 ### Chart 3
 
 ```{r}
+
 ```
