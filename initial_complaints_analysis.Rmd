@@ -1,0 +1,31 @@
+---
+title: "initial_complaints_analysis"
+author: "Arielle Ostry"
+date: "3/29/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(flexdashboard)
+library(tidyverse)
+library(lubridate)
+library(janitor)
+library(glue)
+library(plotly)
+library(DT)
+library(kableExtra)
+library(htmlwidgets)
+library(htmltools)
+library(readxl)
+
+View(complaints)
+```
+
+Initial 2020 Complaints Analysis:
+
+```{r}
+
+```
+
